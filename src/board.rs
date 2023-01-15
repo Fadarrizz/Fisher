@@ -1,4 +1,4 @@
-use super::{Square, Piece, Position, Color};
+use super::{Square, Piece, Position};
 
 #[derive(Debug)]
 pub struct Board {
@@ -20,7 +20,13 @@ impl Default for Board {
 
 impl core::fmt::Display for Board {
     fn fmt(&self, f: &mut core::fmt::Formatter) -> Result<(), core::fmt::Error> {
-        write!(f, "  ┌───┬───┬───┬───┬───┬───┬───┬───┐  ")?;
+        let header = "\n  ┌───┬───┬───┬───┬───┬───┬───┬───┐  ";
+        let middle = "\n  ├───┼───┼───┼───┼───┼───┼───┼───┤  ";
+        let footer = "\n  └───┴───┴───┴───┴───┴───┴───┴───┘  \n";
+        let divider = " │ ";
+        let columns = "    A   B   C   D   E   F   G   H    ";
+
+        write!(f, "{}", header)?;
         let height = 8;
         let width = 8;
 
@@ -31,7 +37,7 @@ impl core::fmt::Display for Board {
             write!(f, "{}", print_row + 1)?;
 
             for col in 0..width {
-                write!(f, " │ ")?;
+                write!(f, "{divider}")?;
 
                 let print_col = col;
                 let pos = Position::new(print_row, print_col);
@@ -44,13 +50,13 @@ impl core::fmt::Display for Board {
 
                 write!(f, "{}", s)?;
             }
-            write!(f, " │ ")?;
+            write!(f, "{}", divider)?;
             
             if row == 7 {
-                write!(f, "\n  └───┴───┴───┴───┴───┴───┴───┴───┘  \n")?;
-                write!(f, "    A   B   C   D   E   F   G   H    ")?;
+                write!(f, "{}", footer)?;
+                write!(f, "{}", columns)?;
             } else {
-                write!(f, "\n  ├───┼───┼───┼───┼───┼───┼───┼───┤  ")?;
+                write!(f, "{}", middle)?;
             }
         }
 
