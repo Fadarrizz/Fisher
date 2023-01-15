@@ -20,10 +20,7 @@ impl Default for Board {
 
 impl core::fmt::Display for Board {
     fn fmt(&self, f: &mut core::fmt::Formatter) -> Result<(), core::fmt::Error> {
-        let abc = "abcdefgh";
-
-        write!(f, "   {}\n  ╔════════╗", abc)?;
-        let square_color = Color::White;
+        write!(f, "  ┌───┬───┬───┬───┬───┬───┬───┬───┐  ")?;
         let height = 8;
         let width = 8;
 
@@ -31,27 +28,33 @@ impl core::fmt::Display for Board {
             writeln!(f)?;
 
             let print_row = height - row - 1;
-            write!(f, "{} ║", print_row + 1)?;
+            write!(f, "{}", print_row + 1)?;
 
             for col in 0..width {
+                write!(f, " │ ")?;
+
                 let print_col = col;
                 let pos = Position::new(print_row, print_col);
 
                 let s = if let Some(piece) = self.get_piece(&pos) {
                     piece.to_string()
                 } else {
-                    String::from(match square_color {
-                        Color::White => "░",
-                        Color::Black => "▓",
-                    })
+                    String::from(" ")
                 };
 
                 write!(f, "{}", s)?;
             }
-            write!(f, "║")?;
+            write!(f, " │ ")?;
+            
+            if row == 7 {
+                write!(f, "\n  └───┴───┴───┴───┴───┴───┴───┴───┘  \n")?;
+                write!(f, "    A   B   C   D   E   F   G   H    ")?;
+            } else {
+                write!(f, "\n  ├───┼───┼───┼───┼───┼───┼───┼───┤  ")?;
+            }
         }
 
-        write!(f, "\n  ╚════════╝\n   {}\n", abc)
+        Ok(())
     }
 }
 
