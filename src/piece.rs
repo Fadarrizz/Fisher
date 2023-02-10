@@ -24,8 +24,8 @@ impl Piece {
     fn initial_pieces(color: Color) -> Vec<Piece> {
         let mut pieces = Vec::new();
 
-        let back_rank = if color == Color::White { 0 } else { 7 };
-        let pawn_rank = if color == Color::White { 1 } else { 6 };
+        let back_rank = if color == Color::White { 7 } else { 0 };
+        let pawn_rank = if color == Color::White { 6 } else { 1 };
 
         for i in 0..8 {
             let position = Position::new(back_rank, i);
